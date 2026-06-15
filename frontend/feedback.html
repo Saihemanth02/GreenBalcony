@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Feedback — GreenBalcony</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Programmatic Navbar Container -->
+  <div id="navbar-container"></div>
+
+  <!-- Main Content -->
+  <main style="max-width:800px;">
+    <!-- Split Layout Grid: Form on Left, History on Right -->
+    <div class="grid-2" style="gap:32px;">
+      
+      <!-- Feedback Form Column -->
+      <div>
+        <h2 style="font-size:var(--font-xl); font-weight:700; margin-bottom:8px;">Share Your Experience</h2>
+        <p style="color:var(--text-secondary); font-size:var(--font-sm); margin-bottom:24px;">Your feedback helps us improve our garden care standards.</p>
+
+        <form id="feedback-submit-form" class="card" style="display:flex; flex-direction:column; gap:16px;">
+          <!-- Select completed order -->
+          <div class="form-group">
+            <label for="feedback-order-select">Select Completed Order *</label>
+            <select id="feedback-order-select" required>
+              <option value="">-- Choose a Completed Order --</option>
+              <!-- populated by API -->
+            </select>
+          </div>
+
+          <!-- Star Rating widget -->
+          <div class="form-group">
+            <label>Rating *</label>
+            <div class="star-rating-widget" style="margin-top:4px;">
+              <span data-rating="1">☆</span>
+              <span data-rating="2">☆</span>
+              <span data-rating="3">☆</span>
+              <span data-rating="4">☆</span>
+              <span data-rating="5">☆</span>
+            </div>
+            <p style="font-size:10px; color:var(--text-muted); margin-top:4px;">Click a star to select rating score.</p>
+          </div>
+
+          <!-- Comments -->
+          <div class="form-group">
+            <label for="feedback-comments">Comments / Reviews</label>
+            <textarea id="feedback-comments" placeholder="Describe the quality of setup or maintenance, behavior of the assigned worker, and how your plants are doing..."></textarea>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" id="feedback-submit-btn" class="btn btn-primary btn-block" style="background-color: var(--accent); color:#000; margin-top:8px;">
+            Submit Feedback
+          </button>
+        </form>
+      </div>
+
+      <!-- Past Feedback History Column -->
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <h3 style="font-size:var(--font-lg); font-weight:600;">My Past Feedback</h3>
+        <div id="past-feedback-container" style="min-height:200px;">
+          <!-- Populated by API -->
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 GreenBalcony. Guided by Mrs. P. Ratna Pavani & Dr. P. Srinivasarao. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/utils.js"></script>
+  <script type="module" src="js/feedback.js"></script>
+</body>
+</html>

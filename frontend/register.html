@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register — GreenBalcony</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: var(--bg-base); padding: 24px;">
+
+  <!-- Form Container Card (Slightly wider for multi-column inputs) -->
+  <div class="card" style="width: 100%; max-width: 580px; padding: 32px; display: flex; flex-direction: column; gap: 24px;">
+    <div style="text-align: center;">
+      <a href="index.html" style="font-size: var(--font-xl); font-weight: 700; color: var(--accent);">🌿 GreenBalcony</a>
+      <h2 style="font-size: var(--font-lg); margin-top: 12px; color: var(--text-primary);">Join GreenBalcony</h2>
+      <p style="font-size: var(--font-xs); color: var(--text-secondary); margin-top: 4px;">Get professional setup and regular maintenance for your balcony garden.</p>
+    </div>
+
+    <form id="register-form" style="display: flex; flex-direction: column; gap: 16px;">
+      
+      <!-- Grid: Name & Email -->
+      <div class="grid-2">
+        <div class="form-group">
+          <label for="register-name">Full Name *</label>
+          <input type="text" id="register-name" placeholder="Ravi Kumar" required>
+        </div>
+        <div class="form-group">
+          <label for="register-email">Email Address *</label>
+          <input type="email" id="register-email" placeholder="ravi@gmail.com" required>
+        </div>
+      </div>
+
+      <!-- Grid: Phone & Address -->
+      <div class="grid-2">
+        <div class="form-group">
+          <label for="register-phone">Phone Number *</label>
+          <input type="tel" id="register-phone" placeholder="9876543210" required>
+        </div>
+        <div class="form-group">
+          <label for="register-address">Street Address</label>
+          <input type="text" id="register-address" placeholder="Flat 402, Siri Towers">
+        </div>
+      </div>
+
+      <!-- Grid: City & Pincode -->
+      <div class="grid-2">
+        <div class="form-group">
+          <label for="register-city">City</label>
+          <input type="text" id="register-city" placeholder="Hyderabad">
+        </div>
+        <div class="form-group">
+          <label for="register-pincode">Pincode</label>
+          <input type="text" id="register-pincode" placeholder="500081">
+        </div>
+      </div>
+
+      <!-- Grid: Password & Confirm -->
+      <div class="grid-2">
+        <div class="form-group">
+          <label for="register-password">Password *</label>
+          <input type="password" id="register-password" placeholder="••••••••" required>
+        </div>
+        <div class="form-group">
+          <label for="register-confirm">Confirm Password *</label>
+          <input type="password" id="register-confirm" placeholder="••••••••" required>
+        </div>
+      </div>
+
+      <!-- Password Strength Indicator -->
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="display: flex; justify-content: space-between; font-size: 11px;">
+          <span id="strength-text" style="color: var(--text-muted);">Strength: Too Weak</span>
+          <span style="color: var(--text-muted);">Must contain length >= 8, caps, digit, special char</span>
+        </div>
+        <div style="background: var(--border-subtle); height: 4px; border-radius: var(--radius-full); overflow: hidden;">
+          <div id="strength-bar" style="width: 0%; height: 100%; background: var(--status-error); transition: width 0.3s ease, background-color 0.3s ease;"></div>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" id="register-submit-btn" class="btn btn-primary btn-block" style="background-color: var(--accent); color: #000; margin-top: 12px;">
+        Create Account
+      </button>
+    </form>
+
+    <div style="text-align: center; font-size: var(--font-xs); color: var(--text-secondary);">
+      Already have an account? <a href="login.html" style="font-weight: 600; color: var(--accent);">Sign In</a>
+    </div>
+  </div>
+
+  <!-- Shared Script files -->
+  <script src="js/utils.js"></script>
+  <script type="module" src="js/auth.js?v=2"></script>
+</body>
+</html>

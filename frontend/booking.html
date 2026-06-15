@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Service Wizard — GreenBalcony</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Programmatic Navbar Container -->
+  <div id="navbar-container"></div>
+
+  <!-- Main Content -->
+  <main style="max-width:768px;">
+    <!-- Wizard Card -->
+    <div class="card" style="padding:32px; margin-bottom:48px;">
+      <h2 style="font-size:var(--font-xl); font-weight:700; margin-bottom:8px; text-align:center;">Book Balcony Service</h2>
+      <p style="color:var(--text-secondary); font-size:var(--font-sm); text-align:center; margin-bottom:32px;">Complete the four simple steps below to schedule your appointment.</p>
+
+      <!-- Step Progress Tracker -->
+      <div class="progress-tracker">
+        <div class="progress-step active" data-step="1">1</div>
+        <div class="progress-step" data-step="2">2</div>
+        <div class="progress-step" data-step="3">3</div>
+        <div class="progress-step" data-step="4">4</div>
+      </div>
+
+      <!-- STEP 1: SELECT SERVICE TYPE -->
+      <div class="wizard-step-content active" id="step-1-content">
+        <h3 style="font-size:var(--font-lg); font-weight:600; margin-bottom:16px;">Step 1: Choose Service Focus</h3>
+        <p style="font-size:var(--font-sm); color:var(--text-secondary); margin-bottom:24px;">Please select what type of balcony garden care you require.</p>
+        
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <!-- Setup option -->
+          <label class="card" style="padding:20px; display:flex; gap:16px; align-items:flex-start; cursor:pointer;">
+            <input type="radio" name="service_type" value="Setup" checked style="width:20px; min-height:auto; margin-top:4px; cursor:pointer;">
+            <div>
+              <strong style="font-size:var(--font-md); color:var(--accent);">Garden Setup Installation</strong>
+              <p style="font-size:var(--font-xs); color:var(--text-secondary); margin-top:4px;">Setting up a new garden or upgrading components. Requires purchasing plants, pots, or decor items.</p>
+            </div>
+          </label>
+
+          <!-- Maintenance option -->
+          <label class="card" style="padding:20px; display:flex; gap:16px; align-items:flex-start; cursor:pointer;">
+            <input type="radio" name="service_type" value="Maintenance" style="width:20px; min-height:auto; margin-top:4px; cursor:pointer;">
+            <div>
+              <strong style="font-size:var(--font-md); color:var(--accent);">Garden Maintenance Visit</strong>
+              <p style="font-size:var(--font-xs); color:var(--text-secondary); margin-top:4px;">Aeration, watering checks, cleaning, pruning, or organic composting for your existing balcony plants.</p>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- STEP 2: CHOOSE PRODUCTS (VERIFY CATALOG ITEMS) -->
+      <div class="wizard-step-content" id="step-2-content">
+        <h3 style="font-size:var(--font-lg); font-weight:600; margin-bottom:16px;">Step 2: Review Garden Components</h3>
+        <p style="font-size:var(--font-sm); color:var(--text-secondary); margin-bottom:24px;">These are the plants and equipment that will be delivered and installed.</p>
+        
+        <div id="booking-products-review" style="min-height:150px;">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- STEP 3: SCHEDULE DATE -->
+      <div class="wizard-step-content" id="step-3-content">
+        <h3 style="font-size:var(--font-lg); font-weight:600; margin-bottom:16px;">Step 3: Schedule Appointment Date</h3>
+        <p style="font-size:var(--font-sm); color:var(--text-secondary); margin-bottom:24px;">Pick a convenient date for our gardeners to visit. Visits take approximately 1-2 hours.</p>
+        
+        <div class="form-group" style="margin-bottom:20px;">
+          <label for="booking-date-picker">Select Scheduled Date *</label>
+          <input type="date" id="booking-date-picker" required>
+        </div>
+
+        <div class="form-group">
+          <label for="booking-notes">Special Instructions / Requests</label>
+          <textarea id="booking-notes" placeholder="Please let us know if there are any gate codes, parking constraints, or specific plant yellowing concerns..."></textarea>
+        </div>
+      </div>
+
+      <!-- STEP 4: REVIEW & CONFIRM -->
+      <div class="wizard-step-content" id="step-4-content">
+        <h3 style="font-size:var(--font-lg); font-weight:600; margin-bottom:16px;">Step 4: Review and Checkout</h3>
+        <p style="font-size:var(--font-sm); color:var(--text-secondary); margin-bottom:24px;">Please check the summary details of your balcony booking below before paying.</p>
+        
+        <div style="background:var(--bg-elevated); padding:20px; border-radius:var(--radius-md); border:1px solid var(--border-subtle); display:flex; flex-direction:column; gap:12px; margin-bottom:24px;">
+          <div style="display:flex; justify-content:space-between; font-size:var(--font-sm);">
+            <span style="color:var(--text-secondary);">Service Requested:</span>
+            <strong id="summary-service-type" style="color:var(--accent);">Setup</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:var(--font-sm);">
+            <span style="color:var(--text-secondary);">Service Visit Date:</span>
+            <strong id="summary-scheduled-date">10 Jul 2026</strong>
+          </div>
+          
+          <div style="display:flex; flex-direction:column; gap:4px;">
+            <span style="font-size:var(--font-sm); color:var(--text-secondary);">Components Summary:</span>
+            <div id="summary-items-list">
+              <!-- populated by JS -->
+            </div>
+          </div>
+          
+          <div style="display:flex; justify-content:space-between; font-size:var(--font-sm); border-top:1px solid var(--border-subtle); padding-top:12px;">
+            <span style="color:var(--text-secondary);">Special Instructions:</span>
+            <span id="summary-notes" style="font-size:var(--font-xs); color:var(--text-muted); max-width:260px; text-align:right;">None</span>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; font-size:var(--font-md); border-top:1px dashed var(--border-subtle); padding-top:12px; font-weight:700;">
+            <span>Estimated Total:</span>
+            <span id="summary-total-amount" style="color:var(--accent); font-size:var(--font-lg);">₹0.00</span>
+          </div>
+        </div>
+
+        <h4 style="font-size:var(--font-sm); font-weight:600; margin-bottom:12px;">Payment Method</h4>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <label class="card" style="padding:12px; display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="radio" name="payment_method" value="UPI" checked style="width:16px; min-height:auto; cursor:pointer;">
+            <span style="font-size:var(--font-sm); font-weight:500;">UPI (GPay/PhonePe)</span>
+          </label>
+          <label class="card" style="padding:12px; display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="radio" name="payment_method" value="Card" style="width:16px; min-height:auto; cursor:pointer;">
+            <span style="font-size:var(--font-sm); font-weight:500;">Debit/Credit Card</span>
+          </label>
+          <label class="card" style="padding:12px; display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="radio" name="payment_method" value="NetBanking" style="width:16px; min-height:auto; cursor:pointer;">
+            <span style="font-size:var(--font-sm); font-weight:500;">Net Banking</span>
+          </label>
+          <label class="card" style="padding:12px; display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="radio" name="payment_method" value="Cash" style="width:16px; min-height:auto; cursor:pointer;">
+            <span style="font-size:var(--font-sm); font-weight:500;">Cash on Service</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Action Buttons footer -->
+      <div style="display:flex; justify-content:space-between; border-top:1px solid var(--border-subtle); padding-top:24px; margin-top:32px;">
+        <button id="wizard-prev-btn" class="btn btn-ghost" style="border:1px solid var(--border-subtle);">Back</button>
+        <button id="wizard-next-btn" class="btn btn-primary" style="background-color: var(--accent); color:#000;">Next</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- SUCCESS DIALOG MODAL -->
+  <div id="booking-success-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width:480px; text-align:center; padding:32px;">
+      <div style="font-size:64px; margin-bottom:16px;">🎉</div>
+      <h3 style="font-size:var(--font-xl); font-weight:700; margin-bottom:8px; color:var(--accent);">Booking Confirmed!</h3>
+      <p style="font-size:var(--font-sm); color:var(--text-secondary); margin-bottom:24px;">
+        Your garden setup order has been logged. Our administrators will review the schedule and assign employee specialists.
+      </p>
+
+      <div style="background:var(--bg-base); padding:16px; border-radius:var(--radius-md); margin-bottom:24px; display:flex; flex-direction:column; gap:8px; text-align:left; font-size:var(--font-sm);">
+        <div style="display:flex; justify-content:space-between;">
+          <span style="color:var(--text-muted);">Booking Reference:</span>
+          <strong id="success-booking-id" style="font-family:monospace;">#10</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between;">
+          <span style="color:var(--text-muted);">Total Invoice:</span>
+          <strong id="success-booking-total" style="color:var(--accent);">₹1,200.00</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between;">
+          <span style="color:var(--text-muted);">Review/Status:</span>
+          <span class="badge badge-pending">Pending Admin Check</span>
+        </div>
+      </div>
+
+      <button id="success-modal-close-btn" class="btn btn-primary btn-block" style="background-color: var(--accent); color:#000;">
+        Go to Dashboard
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 GreenBalcony. Guided by Mrs. P. Ratna Pavani & Dr. P. Srinivasarao. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/utils.js"></script>
+  <script type="module" src="js/booking.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Dashboard — GreenBalcony</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Programmatic Navbar Container -->
+  <div id="navbar-container"></div>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Welcome Banner -->
+    <section class="card" style="margin-bottom: 24px; padding: 32px; background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(17,17,17,0.85));">
+      <h2 id="welcome-user-text" style="font-size: var(--font-xl); color: var(--accent);">Good morning!</h2>
+      <p style="font-size: var(--font-sm); color: var(--text-secondary); margin-top: 4px;">Welcome back to your GreenBalcony dashboard. Monitor your plant setup & schedule care appointments.</p>
+    </section>
+
+    <!-- Stats Row -->
+    <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 32px;">
+      <!-- Stat 1 -->
+      <div class="card" style="display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: var(--font-xs); color: var(--text-secondary); text-transform: uppercase;">Active Bookings</span>
+        <span id="stat-active-bookings" style="font-size: var(--font-2xl); font-weight: 700; color: var(--accent);">0</span>
+      </div>
+      <!-- Stat 2 -->
+      <div class="card" style="display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: var(--font-xs); color: var(--text-secondary); text-transform: uppercase;">Upcoming Care Visits</span>
+        <span id="stat-upcoming-maintenance" style="font-size: var(--font-2xl); font-weight: 700; color: var(--status-pending);">0</span>
+      </div>
+      <!-- Stat 3 -->
+      <div class="card" style="display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: var(--font-xs); color: var(--text-secondary); text-transform: uppercase;">Total Invested</span>
+        <span id="stat-total-spent" style="font-size: var(--font-2xl); font-weight: 700; color: var(--text-primary);">₹0.00</span>
+      </div>
+      <!-- Stat 4 -->
+      <div class="card" style="display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: var(--font-xs); color: var(--text-secondary); text-transform: uppercase;">Unread Notifications</span>
+        <span id="stat-unread-notifications" style="font-size: var(--font-2xl); font-weight: 700; color: var(--status-info);">0</span>
+      </div>
+    </section>
+
+    <!-- Dashboard Content Split Grid -->
+    <div class="grid-2" style="margin-bottom: 32px; gap: 24px;">
+      
+      <!-- Recent Orders Column -->
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h3 style="font-size: var(--font-lg); font-weight: 600;">Recent Orders</h3>
+          <a href="catalog.html" style="font-size: var(--font-xs); font-weight: 600; color: var(--accent);">Browse Catalog &rarr;</a>
+        </div>
+        <div id="dashboard-recent-orders" class="card" style="padding: 0; min-height: 200px; overflow: hidden;">
+          <!-- Populated by API -->
+        </div>
+      </div>
+
+      <!-- Upcoming Maintenance Column -->
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h3 style="font-size: var(--font-lg); font-weight: 600;">Upcoming Care Schedule</h3>
+          <a href="maintenance.html" style="font-size: var(--font-xs); font-weight: 600; color: var(--accent);">View Timeline &rarr;</a>
+        </div>
+        <div id="dashboard-upcoming-maintenance" style="min-height: 200px;">
+          <!-- Populated by API -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Quick Actions Section -->
+    <section class="card" style="padding: 24px; text-align: center;">
+      <h3 style="font-size: var(--font-md); margin-bottom: 16px;">Quick Dashboard Actions</h3>
+      <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+        <a href="booking.html" class="btn btn-primary" style="background-color: var(--accent); color: #000;">➕ New Garden Booking</a>
+        <a href="ai-advisor.html" class="btn btn-secondary">🌿 AI Plant advisor</a>
+        <a href="payments.html" class="btn btn-ghost" style="border: 1px solid var(--border-subtle);">🧾 View Billing & Invoices</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 GreenBalcony. Guided by Mrs. P. Ratna Pavani & Dr. P. Srinivasarao. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/utils.js"></script>
+  <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

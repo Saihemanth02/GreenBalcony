@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — GreenBalcony</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Programmatic Navbar Container -->
+  <div id="navbar-container"></div>
+
+  <!-- Main Content -->
+  <main style="max-width:1200px;">
+    <!-- Page Header -->
+    <section style="margin-bottom:24px;">
+      <h2 style="font-size:var(--font-2xl); font-weight:700; color:var(--accent);">Admin Dashboard Control</h2>
+      <p style="color:var(--text-secondary); font-size:var(--font-sm); margin-top:4px;">Manage orders, categories, catalog items, and allocate tasks to employees.</p>
+    </section>
+
+    <!-- Tab navigation -->
+    <section class="tabs-nav" style="margin-bottom:32px;">
+      <button class="tab-btn active" data-tab="dashboard">📊 Dashboard Stats</button>
+      <button class="tab-btn" data-tab="orders">📦 Orders Manager</button>
+      <button class="tab-btn" data-tab="workers">🧑‍🌾 Worker Directory</button>
+      <button class="tab-btn" data-tab="assignments">📅 Task Assignments</button>
+      <button class="tab-btn" data-tab="products">🪴 Product Catalog</button>
+    </section>
+
+    <!-- TAB 1: DASHBOARD STATS -->
+    <div class="tab-content active" id="tab-dashboard">
+      <!-- Stat Cards Grid -->
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-bottom:32px;">
+        <div class="card clickable-card" id="admin-card-orders" style="display:flex; flex-direction:column; gap:8px;">
+          <span style="font-size:var(--font-xs); color:var(--text-secondary);">Total Orders</span>
+          <span id="admin-stat-orders" style="font-size:var(--font-2xl); font-weight:700; color:var(--text-primary);">0</span>
+        </div>
+        <div class="card clickable-card" id="admin-card-pending" style="display:flex; flex-direction:column; gap:8px;">
+          <span style="font-size:var(--font-xs); color:var(--text-secondary);">Pending Approvals</span>
+          <span id="admin-stat-pending" style="font-size:var(--font-2xl); font-weight:700; color:var(--status-pending);">0</span>
+        </div>
+        <div class="card" style="display:flex; flex-direction:column; gap:8px;">
+          <span style="font-size:var(--font-xs); color:var(--text-secondary);">Total Paid Revenue</span>
+          <span id="admin-stat-revenue" style="font-size:var(--font-2xl); font-weight:700; color:var(--accent);">₹0.00</span>
+        </div>
+        <div class="card" style="display:flex; flex-direction:column; gap:8px;">
+          <span style="font-size:var(--font-xs); color:var(--text-secondary);">Active Customers</span>
+          <span id="admin-stat-customers" style="font-size:var(--font-2xl); font-weight:700; color:var(--status-info);">0</span>
+        </div>
+        <div class="card clickable-card" id="admin-card-employees" style="display:flex; flex-direction:column; gap:8px;">
+          <span style="font-size:var(--font-xs); color:var(--text-secondary);">Gardening Employees</span>
+          <span id="admin-stat-employees" style="font-size:var(--font-2xl); font-weight:700; color:var(--text-secondary);">0</span>
+        </div>
+      </div>
+
+      <!-- Recent Orders Section -->
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <h3 style="font-size:var(--font-lg); font-weight:600;">Recent 5 Placed Orders</h3>
+        <div class="card" style="padding:0; overflow:hidden;">
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer (City)</th>
+                  <th>Order Category</th>
+                  <th>Booking Date</th>
+                  <th>Amount</th>
+                  <th>Status Action</th>
+                </tr>
+              </thead>
+              <tbody id="admin-recent-orders-list">
+                <!-- populated by API -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: ORDERS MANAGEMENT -->
+    <div class="tab-content" id="tab-orders">
+      <div style="display:flex; flex-direction:column; gap:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+          <h3 style="font-size:var(--font-lg); font-weight:600;">All Customer Bookings</h3>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <label for="admin-orders-filter" style="font-size:var(--font-sm); color:var(--text-secondary); white-space:nowrap;">Filter Status:</label>
+            <select id="admin-orders-filter" style="min-height:36px; padding:4px 12px; border-radius:var(--radius-md); background:var(--bg-elevated); color:var(--text-primary); border:1px solid var(--border-subtle); width:auto;">
+              <option value="All">All Statuses</option>
+              <option value="Pending">Pending</option>
+              <option value="Confirmed">Confirmed</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+        </div>
+        <div class="card" style="padding:0; overflow:hidden;">
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer Profile</th>
+                  <th>Category</th>
+                  <th>Booking Date</th>
+                  <th>Invoice amount</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="admin-orders-table-body">
+                <!-- populated by API -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: WORKER MANAGEMENT -->
+    <div class="tab-content" id="tab-workers">
+      <div style="display:flex; flex-direction:column; gap:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h3 style="font-size:var(--font-lg); font-weight:600;">Gardening Crew Directory</h3>
+          <button id="admin-add-worker-btn" class="btn btn-primary" style="background-color: var(--accent); color:#000;">
+            ➕ Add Employee Account
+          </button>
+        </div>
+
+        <div id="admin-workers-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:20px;">
+          <!-- populated by API -->
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: ASSIGNMENTS -->
+    <div class="tab-content" id="tab-assignments">
+      <div class="grid-2" style="gap:32px; align-items:flex-start;">
+        
+        <!-- Assignment Form -->
+        <form id="admin-assign-form" class="card" style="display:flex; flex-direction:column; gap:16px;">
+          <h3 style="font-size:var(--font-md); font-weight:600; color:var(--accent);">Assign Crew member to Schedule</h3>
+          
+          <div class="form-group">
+            <label for="assign-schedule-select">Select Pending Maintenance Schedule *</label>
+            <select id="assign-schedule-select" required>
+              <!-- Populated by JS -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="assign-employee-select">Select Gardening Crew Member *</label>
+            <select id="assign-employee-select" required>
+              <!-- Populated by JS -->
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block" style="background-color: var(--accent); color:#000;">
+            Assign Employee
+          </button>
+        </form>
+
+        <!-- Assignments List Table -->
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <h3 style="font-size:var(--font-lg); font-weight:600;">Active Task Assignments</h3>
+          <div class="card" style="padding:0; overflow:hidden;">
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Ref</th>
+                    <th>Service Date</th>
+                    <th>Type</th>
+                    <th>Assigned Crew</th>
+                    <th>Customer</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-assignments-list">
+                  <!-- populated by API -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 5: PRODUCTS & CATALOG -->
+    <div class="tab-content" id="tab-products">
+      <div style="display:grid; grid-template-columns:3fr 1.5fr; gap:32px; align-items:flex-start;">
+        
+        <!-- Products Table -->
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h3 style="font-size:var(--font-lg); font-weight:600;">Inventory Catalog Items</h3>
+            <button id="admin-add-product-btn" class="btn btn-primary" style="background-color: var(--accent); color:#000; min-height:36px; padding:6px 12px;">
+              ➕ Add Product
+            </button>
+          </div>
+          <div class="card" style="padding:0; overflow:hidden;">
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-products-table-body">
+                  <!-- Populated by API -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Categories Editor -->
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <h3 style="font-size:var(--font-lg); font-weight:600;">Manage Categories</h3>
+          
+          <!-- Add Category Form -->
+          <div class="card" style="display:flex; flex-direction:column; gap:12px; padding:16px;">
+            <h4 style="font-size:var(--font-xs); font-weight:600; text-transform:uppercase;">Add New Category</h4>
+            <div class="form-group" style="margin-bottom:8px;">
+              <input type="text" id="admin-new-category-name" placeholder="Category Name (e.g. Soil)" required style="min-height:36px; padding:6px 12px;">
+            </div>
+            <div class="form-group" style="margin-bottom:8px;">
+              <input type="text" id="admin-new-category-type" placeholder="Category Type (e.g. Care)" style="min-height:36px; padding:6px 12px;">
+            </div>
+            <div class="form-group" style="margin-bottom:8px;">
+              <textarea id="admin-new-category-desc" placeholder="Category Description..." style="min-height:60px; padding:6px 12px;"></textarea>
+            </div>
+            <button id="admin-add-category-btn" class="btn btn-primary btn-block" style="background-color: var(--accent); color:#000; min-height:36px; padding:6px;">
+              Add Category
+            </button>
+          </div>
+
+          <!-- Categories List -->
+          <div class="card" style="padding:0; overflow:hidden;">
+            <ul id="admin-categories-list" style="list-style:none;">
+              <!-- populated by API -->
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL: ADD / EDIT WORKER -->
+  <div id="admin-worker-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width:480px;">
+      <div class="modal-header">
+        <h3 id="worker-modal-title">Register New Employee</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <form id="worker-form">
+        <div class="modal-body" style="display:flex; flex-direction:column; gap:16px; padding:24px;">
+          <input type="hidden" id="worker-id">
+          
+          <div class="form-group">
+            <label for="worker-name">Employee Full Name *</label>
+            <input type="text" id="worker-name" placeholder="Suresh Babu" required>
+          </div>
+
+          <div class="form-group">
+            <label for="worker-email">Email Address *</label>
+            <input type="email" id="worker-email" placeholder="suresh@greenbalcony.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="worker-phone">Phone Number</label>
+            <input type="tel" id="worker-phone" placeholder="9876543213">
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="worker-role">Select Role *</label>
+              <select id="worker-role" required>
+                <option value="Gardener">Gardener</option>
+                <option value="Cleaner">Cleaner</option>
+                <option value="Helper">Helper</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="worker-experience">Experience (Years)</label>
+              <input type="number" id="worker-experience" placeholder="3" min="0" value="0">
+            </div>
+          </div>
+          <p style="font-size:10px; color:var(--text-muted);">Note: A user account with default password 'Password@123' will be created/linked automatically.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" style="background-color: var(--accent); color:#000;">Save Worker</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD / EDIT PRODUCT -->
+  <div id="admin-product-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width:500px;">
+      <div class="modal-header">
+        <h3 id="product-modal-title">Add Product to Catalog</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <form id="product-form">
+        <div class="modal-body" style="display:flex; flex-direction:column; gap:16px; padding:24px;">
+          <input type="hidden" id="product-id">
+
+          <div class="form-group">
+            <label for="product-name">Product / Component Name *</label>
+            <input type="text" id="product-name" placeholder="Tulsi (Holy Basil)" required>
+          </div>
+
+          <div class="form-group">
+            <label for="product-category">Select Category *</label>
+            <select id="product-category" required>
+              <!-- populated by API -->
+            </select>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="product-price">Unit Price (₹) *</label>
+              <input type="number" id="product-price" placeholder="150" step="0.01" min="0" required>
+            </div>
+            <div class="form-group">
+              <label for="product-quantity">Quantity in Stock *</label>
+              <input type="number" id="product-quantity" placeholder="50" min="0" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="product-image-url">Image URL Thumbnail</label>
+            <input type="text" id="product-image-url" placeholder="https://unsplash.com/...">
+          </div>
+
+          <div class="form-group">
+            <label for="product-description">Product Description</label>
+            <textarea id="product-description" placeholder="Describe plant characteristics, pot size, or fertilizer volume details..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" style="background-color: var(--accent); color:#000;">Save Catalog Component</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: VIEW DETAILS (ORDER DETAILS DIALOG) -->
+  <div id="admin-order-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width:540px;">
+      <div class="modal-header">
+        <h3 id="admin-order-modal-title">Order #00 Details</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body" id="admin-order-modal-body" style="padding:24px;">
+        <!-- populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 GreenBalcony. Guided by Mrs. P. Ratna Pavani & Dr. P. Srinivasarao. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/utils.js"></script>
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>

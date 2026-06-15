@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Maintenance Schedule — GreenBalcony</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Programmatic Navbar Container -->
+  <div id="navbar-container"></div>
+
+  <!-- Main Content -->
+  <main style="max-width:800px;">
+    <!-- Page Header -->
+    <section style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; flex-wrap:wrap; gap:16px;">
+      <div>
+        <h2 style="font-size:var(--font-2xl); font-weight:700;">Garden Maintenance Schedule</h2>
+        <p style="color:var(--text-secondary); font-size:var(--font-sm); margin-top:4px;">Track upcoming routine maintenance visits, employee assignments, and complete history details.</p>
+      </div>
+    </section>
+
+    <!-- Filters Row -->
+    <section class="tabs-nav" style="margin-bottom:32px;">
+      <button class="tab-btn active" data-filter="all">All Visits</button>
+      <button class="tab-btn" data-filter="pending">Pending Care</button>
+      <button class="tab-btn" data-filter="done">Completed Logs</button>
+    </section>
+
+    <!-- Timeline Container -->
+    <section id="maintenance-timeline" style="min-height:300px;">
+      <!-- Populated by JS -->
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 GreenBalcony. Guided by Mrs. P. Ratna Pavani & Dr. P. Srinivasarao. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/utils.js"></script>
+  <script type="module" src="js/maintenance.js"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — GreenBalcony</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: var(--bg-base); padding: 24px;">
+
+  <!-- Form Container Card -->
+  <div class="card" style="width: 100%; max-width: 420px; padding: 32px; display: flex; flex-direction: column; gap: 24px;">
+    <div style="text-align: center;">
+      <a href="index.html" style="font-size: var(--font-xl); font-weight: 700; color: var(--accent);">🌿 GreenBalcony</a>
+      <h2 style="font-size: var(--font-lg); margin-top: 12px; color: var(--text-primary);">Welcome Back</h2>
+      <p style="font-size: var(--font-xs); color: var(--text-secondary); margin-top: 4px;">Log in to book setup & maintenance services.</p>
+    </div>
+
+    <form id="login-form" style="display: flex; flex-direction: column; gap: 16px;">
+      <!-- Email -->
+      <div class="form-group">
+        <label for="login-email">Email Address</label>
+        <input type="email" id="login-email" placeholder="name@domain.com" required>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group" style="position: relative;">
+        <label for="login-password">Password</label>
+        <div style="position: relative; width: 100%;">
+          <input type="password" id="login-password" placeholder="••••••••" required style="padding-right: 48px; width: 100%;">
+          <button type="button" id="toggle-password-view" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: var(--text-secondary); cursor: pointer; font-size: 16px; min-height: auto; padding: 4px;">
+            👁
+          </button>
+        </div>
+      </div>
+
+      <!-- Options -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+        <label class="checkbox-group">
+          <input type="checkbox" id="login-remember">
+          <span style="font-size: var(--font-xs); color: var(--text-secondary);">Remember me</span>
+        </label>
+        <!-- Optional forgot password logic placeholder if desired, else omit -->
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" id="login-submit-btn" class="btn btn-primary btn-block" style="background-color: var(--accent); color: #000; margin-top: 8px;">
+        Sign In
+      </button>
+    </form>
+
+    <div style="text-align: center; font-size: var(--font-xs); color: var(--text-secondary);">
+      New to GreenBalcony? <a href="register.html" style="font-weight: 600; color: var(--accent);">Create Account</a>
+    </div>
+  </div>
+
+  <!-- Shared Script files -->
+  <script src="js/utils.js"></script>
+  <script type="module" src="js/auth.js?v=2"></script>
+</body>
+</html>

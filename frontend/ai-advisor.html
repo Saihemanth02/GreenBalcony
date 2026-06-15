@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌿 GreenBot AI Advisor — GreenBalcony</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Programmatic Navbar Container -->
+  <div id="navbar-container"></div>
+
+  <!-- Main Content -->
+  <main style="max-width:860px;">
+    <!-- Page Header -->
+    <section style="margin-bottom:24px;">
+      <h2 style="font-size:var(--font-2xl); font-weight:700; color:var(--accent);">🌿 GreenBot AI Garden Companion</h2>
+      <p style="color:var(--text-secondary); font-size:var(--font-sm); margin-top:4px;">Consult our Gemini-powered assistant for automated garden designs, booking suggestions, and instant plant care troubleshooting.</p>
+    </section>
+
+    <!-- Page Tabs -->
+    <section class="tabs-nav" style="margin-bottom:24px;">
+      <button class="tab-btn active" data-tab="plants">🌱 Plant Care Advisor</button>
+      <button class="tab-btn" data-tab="booking">📅 Smart Booking Planner</button>
+      <button class="tab-btn" data-tab="chat">💬 GreenBot Chat</button>
+    </section>
+
+    <!-- TAB 1: PLANT CARE ADVISOR -->
+    <div class="tab-content active" id="tab-plants">
+      <form id="advisor-form" class="card" style="margin-bottom:32px; display:flex; flex-direction:column; gap:16px;">
+        <h3 style="font-size:var(--font-md); font-weight:600;">Personalized Balcony Recommendations</h3>
+        
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="advisor-size">Balcony Dimensions *</label>
+            <select id="advisor-size" required>
+              <option value="Small (4x6 ft)">Small (4x6 ft)</option>
+              <option value="Medium (6x10 ft)">Medium (6x10 ft)</option>
+              <option value="Large (10x15 ft)">Large (10x15 ft)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="advisor-sunlight">Sunlight Exposure *</label>
+            <select id="advisor-sunlight" required>
+              <option value="Full Sun (6+ hours)">Full Sun (6+ hours)</option>
+              <option value="Partial shade (3-6 hours)">Partial shade (3-6 hours)</option>
+              <option value="Full Shade (less than 3 hours)">Full Shade (less than 3 hours)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="advisor-city">City Location *</label>
+            <input type="text" id="advisor-city" placeholder="Hyderabad" required>
+          </div>
+          <div class="form-group">
+            <label for="advisor-budget">Estimated Budget (₹) *</label>
+            <input type="number" id="advisor-budget" placeholder="2000" min="500" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="advisor-preferences">Aesthetic & Flora Preferences</label>
+          <textarea id="advisor-preferences" placeholder="e.g. Low maintenance, pet-friendly, medicinal plants, aromatic flowering climbers..."></textarea>
+        </div>
+
+        <button type="submit" id="advisor-submit-btn" class="btn btn-primary" style="background-color: var(--accent); color:#000;">
+          Get My Garden Plan
+        </button>
+      </form>
+
+      <!-- Advisor Loading state -->
+      <div id="advisor-loading-state" class="card" style="display:none; flex-direction:column; align-items:center; justify-content:center; padding:48px; gap:16px;">
+        <div class="typing-indicator">
+          <span class="typing-dot"></span>
+          <span class="typing-dot"></span>
+          <span class="typing-dot"></span>
+        </div>
+        <p style="font-size:var(--font-sm); color:var(--accent);">GreenBot is analysing your balcony dimensions and local climate...</p>
+      </div>
+
+      <!-- Advisor Result Card -->
+      <div id="advisor-result-card" class="card" style="display:none; margin-bottom:48px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:12px;">
+          <h3 style="font-size:var(--font-lg); font-weight:600;">Your Customized Balcony Plan</h3>
+          <span id="advisor-package-badge" class="badge badge-success">Medium Package</span>
+        </div>
+
+        <!-- Plants Grid -->
+        <h4 style="font-size:var(--font-sm); font-weight:600; margin-bottom:12px;">Recommended Plants:</h4>
+        <div id="advisor-plants-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px;">
+          <!-- populated by API -->
+        </div>
+
+        <!-- Care Tips -->
+        <h4 style="font-size:var(--font-sm); font-weight:600; margin-bottom:12px;">Essential Care Tips:</h4>
+        <ul id="advisor-tips-list" style="list-style:none; display:flex; flex-direction:column; gap:8px; margin-bottom:24px;">
+          <!-- populated by API -->
+        </ul>
+
+        <!-- Warning block -->
+        <div id="advisor-warn-banner" style="display:none; background:rgba(245,158,11,0.08); border:1px solid var(--status-pending); color:var(--status-pending); border-radius:var(--radius-md); padding:16px; font-size:var(--font-sm); margin-bottom:24px;">
+          <!-- populated by API -->
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-subtle); padding-top:24px; flex-wrap:wrap; gap:16px;">
+          <div>
+            <div style="font-size:var(--font-xs); color:var(--text-muted);">Calculated Total Estimate:</div>
+            <div id="advisor-total-estimate" style="font-size:var(--font-xl); font-weight:700; color:var(--accent);">₹0.00</div>
+            <div id="advisor-confidence-note" style="font-size:var(--font-xs); color:var(--text-secondary); font-style:italic; margin-top:4px; max-width:400px;">Reasoning info...</div>
+          </div>
+          <button id="advisor-book-plan-btn" class="btn btn-primary" style="background-color: var(--accent); color:#000;">
+            Book This Garden Plan
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: SMART BOOKING PLANNER -->
+    <div class="tab-content" id="tab-booking">
+      <form id="booking-assistant-form" class="card" style="margin-bottom:32px; display:flex; flex-direction:column; gap:16px;">
+        <h3 style="font-size:var(--font-md); font-weight:600;">Automated Care Scheduling Advisor</h3>
+        
+        <div class="form-group">
+          <label>Service Preference *</label>
+          <div style="display:flex; gap:24px; margin-top:4px;">
+            <label class="checkbox-group">
+              <input type="radio" name="assistant_service_preference" value="Setup" checked>
+              <span>Setup Installation</span>
+            </label>
+            <label class="checkbox-group">
+              <input type="radio" name="assistant_service_preference" value="Maintenance">
+              <span>Routine Maintenance</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="booking-budget">Available Budget (₹) *</label>
+            <input type="number" id="booking-budget" placeholder="1500" min="200" required>
+          </div>
+          <div class="form-group">
+            <label for="booking-plants-input">Add Existing Plants (Press Enter to Add)</label>
+            <input type="text" id="booking-plants-input" placeholder="e.g. Money Plant">
+            <div id="booking-tags-container" style="display:flex; flex-wrap:wrap; margin-top:8px;"></div>
+          </div>
+        </div>
+
+        <!-- Preferred Dates -->
+        <div class="form-group">
+          <label>Preferred Visit Dates (Pick up to 3) *</label>
+          <div class="grid-3" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
+            <input type="date" id="booking-date-1" required style="min-height:44px;">
+            <input type="date" id="booking-date-2" style="min-height:44px;">
+            <input type="date" id="booking-date-3" style="min-height:44px;">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="booking-concerns">Describe Gardening Issues / Concerns</label>
+          <textarea id="booking-concerns" placeholder="e.g. My snake plant leaves are getting yellow, or I need clean-up assistance..."></textarea>
+        </div>
+
+        <button type="submit" id="booking-assistant-submit-btn" class="btn btn-primary" style="background-color: var(--accent); color:#000;">
+          Suggest My Booking
+        </button>
+      </form>
+
+      <!-- Booking Loading -->
+      <div id="booking-loading-state" class="card" style="display:none; flex-direction:column; align-items:center; justify-content:center; padding:48px; gap:16px;">
+        <div class="typing-indicator">
+          <span class="typing-dot"></span>
+          <span class="typing-dot"></span>
+          <span class="typing-dot"></span>
+        </div>
+        <p style="font-size:var(--font-sm); color:var(--accent);">GreenBot is matching your parameters with gardener schedules and items...</p>
+      </div>
+
+      <!-- Booking Result Card -->
+      <div id="booking-result-card" class="card" style="display:none; margin-bottom:48px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+          <h3 style="font-size:var(--font-lg); font-weight:600;">Your Optimized Booking Suggestion</h3>
+          <span id="booking-urgency-badge" class="badge">Medium Urgency</span>
+        </div>
+
+        <div style="background:var(--bg-elevated); padding:20px; border-radius:var(--radius-md); border:1px solid var(--border-subtle); display:flex; flex-direction:column; gap:12px; margin-bottom:24px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:var(--font-sm); color:var(--text-secondary);">Recommended service:</span>
+            <div id="booking-rec-service" style="display:flex; gap:8px;"></div>
+          </div>
+          
+          <div style="border-top:1px solid var(--border-subtle); padding-top:12px;">
+            <h5 style="font-size:var(--font-sm); font-weight:600; color:var(--text-secondary); margin-bottom:6px;">Suggested Components:</h5>
+            <div id="booking-suggested-products"></div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-subtle); padding-top:12px;">
+            <span style="font-size:var(--font-sm); color:var(--text-secondary);">Optimal Schedule Date:</span>
+            <span id="booking-optimal-date" style="font-size:var(--font-sm); font-weight:700; color:var(--accent);">YYYY-MM-DD</span>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px dashed var(--border-subtle); padding-top:12px; font-weight:700; font-size:var(--font-md);">
+            <span>Estimated Total:</span>
+            <span id="booking-total-est" style="color:var(--accent);">₹0.00</span>
+          </div>
+        </div>
+
+        <!-- Explanations -->
+        <p id="booking-reason-text" style="font-size:var(--font-sm); color:var(--text-secondary); line-height:1.5; margin-bottom:20px;">Reason...</p>
+        <div id="booking-tip-banner" style="background:rgba(99,102,241,0.08); border:1px solid var(--status-info); color:var(--status-info); padding:12px; border-radius:var(--radius-md); font-size:var(--font-xs); margin-bottom:24px;">Tip...</div>
+
+        <button id="booking-book-now-btn" class="btn btn-primary btn-block" style="background-color: var(--accent); color:#000;">
+          Book Now with This Plan
+        </button>
+      </div>
+    </div>
+
+    <!-- TAB 3: GREENBOT INTERACTIVE CHAT -->
+    <div class="tab-content" id="tab-chat">
+      <div class="card" style="padding:20px; margin-bottom:48px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-subtle); padding-bottom:12px; margin-bottom:16px;">
+          <h3 style="font-size:var(--font-md); font-weight:600; color:var(--accent);">🌿 Chat with GreenBot</h3>
+          <button id="chat-clear-btn" class="btn btn-ghost" style="min-height:32px; padding:4px 12px; border:1px solid var(--border-subtle); font-size:var(--font-xs);">
+            Clear Chat
+          </button>
+        </div>
+
+        <!-- Chat history message area -->
+        <div id="chat-messages-window" class="chat-window">
+          <!-- populated dynamically by JS bubbles -->
+        </div>
+
+        <!-- Chat starters -->
+        <div id="chat-starters-list" style="display:flex; flex-direction:column; gap:8px; margin-bottom:16px;">
+          <div style="font-size:var(--font-xs); color:var(--text-muted);">Starter Questions:</div>
+          <div class="chat-prompt-chips">
+            <button class="chat-prompt-chip">My plants are yellowing — what's wrong?</button>
+            <button class="chat-prompt-chip">How often should I water in Hyderabad summers?</button>
+            <button class="chat-prompt-chip">Which plants are good for a west-facing balcony?</button>
+          </div>
+        </div>
+
+        <!-- Input Box -->
+        <div class="chat-input-area">
+          <textarea id="chat-input-textarea" placeholder="Ask GreenBot about plants, watering, fertilizers (Press Ctrl+Enter to Send)..."></textarea>
+          <button id="chat-send-btn" class="btn btn-primary" style="background-color: var(--accent); color:#000; min-height:44px; width:70px; padding:0;">
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 GreenBalcony. Guided by Mrs. P. Ratna Pavani & Dr. P. Srinivasarao. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/utils.js"></script>
+  <script type="module" src="js/ai-advisor.js"></script>
+</body>
+</html>

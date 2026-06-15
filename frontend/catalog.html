@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Catalog — GreenBalcony</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Programmatic Navbar Container -->
+  <div id="navbar-container"></div>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Catalog Header -->
+    <section style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; flex-wrap:wrap; gap:16px;">
+      <div>
+        <h2 style="font-size:var(--font-2xl); font-weight:700;">Garden Components & Packages</h2>
+        <p style="color:var(--text-secondary); font-size:var(--font-sm); margin-top:4px;">Browse plants, pots, string lights, and organic fertilizers for your balcony garden.</p>
+      </div>
+      <div>
+        <button id="cart-toggle-btn" class="btn btn-secondary" style="position:relative; min-height:44px; display:inline-flex; align-items:center;">
+          🛒 View Cart
+          <span id="cart-badge-count" class="bell-badge" style="position:absolute; top:-6px; right:-6px; display:none;">0</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Categories Filters Row -->
+    <section id="category-filter-tabs" class="tabs-nav" style="margin-bottom:24px;">
+      <!-- Populated by API -->
+    </section>
+
+    <!-- Product Grid -->
+    <section id="catalog-products-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:24px; margin-bottom:48px;">
+      <!-- Populated by API -->
+    </section>
+  </main>
+
+  <!-- Cart Slide-out Drawer -->
+  <aside id="cart-sidebar" class="cart-sidebar">
+    <div class="cart-sidebar-header">
+      <h3 style="font-size:var(--font-lg); font-weight:600;">Your Cart</h3>
+      <button id="cart-sidebar-close" class="modal-close" style="font-size:24px; cursor:pointer;">&times;</button>
+    </div>
+
+    <div class="cart-sidebar-body" id="cart-items-list">
+      <!-- Populated by JS -->
+    </div>
+
+    <div class="cart-sidebar-footer">
+      <div style="display:flex; justify-content:space-between; font-weight:700; font-size:var(--font-md);">
+        <span>Subtotal:</span>
+        <span id="cart-subtotal" style="color:var(--accent);">₹0.00</span>
+      </div>
+      <p style="font-size:var(--font-xs); color:var(--text-muted);">Taxes and basic delivery calculated during checkout.</p>
+      
+      <div style="display:flex; gap:12px;">
+        <button id="clear-cart-btn" class="btn btn-ghost" style="flex:1; border:1px solid var(--border-subtle);">Clear</button>
+        <button id="proceed-booking-btn" class="btn btn-primary" style="flex:2; background-color: var(--accent); color:#000;">Proceed to Book</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 GreenBalcony. Guided by Mrs. P. Ratna Pavani & Dr. P. Srinivasarao. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/utils.js"></script>
+  <script type="module" src="js/catalog.js"></script>
+</body>
+</html>

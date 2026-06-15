@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment History — GreenBalcony</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Programmatic Navbar Container -->
+  <div id="navbar-container"></div>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Page Header -->
+    <section style="margin-bottom:32px;">
+      <h2 style="font-size:var(--font-2xl); font-weight:700;">Billing & Payment History</h2>
+      <p style="color:var(--text-secondary); font-size:var(--font-sm); margin-top:4px;">View transaction history, payment statuses, and print invoices/receipts for your garden services.</p>
+    </section>
+
+    <!-- Payments Table Card -->
+    <section class="card" style="padding:0; overflow:hidden;">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Service Type</th>
+              <th>Amount</th>
+              <th>Method</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="payments-table-body">
+            <!-- Populated by API -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- BILL INVOICE MODAL (Supports Window Printing) -->
+  <div id="invoice-modal" class="modal-overlay">
+    <div class="modal-content" id="invoice-modal" style="max-width:640px;">
+      <div class="modal-header">
+        <h3>Invoice Details</h3>
+        <button id="invoice-modal-close" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body" style="padding:32px;">
+        <!-- Brand header -->
+        <div style="display:flex; justify-content:between; align-items:flex-start; margin-bottom:24px;">
+          <div style="flex:1;">
+            <h2 style="color:var(--accent); font-size:var(--font-lg); font-weight:700;">🌿 GreenBalcony</h2>
+            <p style="font-size:var(--font-xs); color:var(--text-secondary);">Your Garden, Our Responsibility</p>
+          </div>
+          <div style="text-align:right;">
+            <h3 style="font-size:var(--font-md); font-weight:600;">INVOICE</h3>
+            <p id="invoice-number" style="font-family:monospace; font-size:var(--font-sm); font-weight:700; color:var(--accent);">#GB-ORD-10</p>
+            <p style="font-size:var(--font-xs); color:var(--text-muted);">Date: <span id="invoice-date">10 Jun 2026</span></p>
+          </div>
+        </div>
+
+        <hr style="border:0; border-top:1px solid var(--border-subtle); margin-bottom:20px;">
+
+        <!-- Address Grid -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; font-size:var(--font-xs); margin-bottom:24px;">
+          <div>
+            <h4 style="font-weight:600; color:var(--text-secondary); margin-bottom:6px;">Billing From:</h4>
+            <strong>GreenBalcony Inc.</strong><br>
+            MCA Dept, Gayatri Vidya Parishad<br>
+            Visakhapatnam, Andhra Pradesh<br>
+            Support: admin@greenbalcony.com
+          </div>
+          <div>
+            <h4 style="font-weight:600; color:var(--text-secondary); margin-bottom:6px;">Billing To:</h4>
+            <strong id="invoice-cust-name">Ravi Kumar</strong><br>
+            <span id="invoice-cust-addr">Flat 402, Lotus Apts, Madhapur, Hyderabad - 500081</span>
+          </div>
+        </div>
+
+        <!-- Order details -->
+        <div style="font-size:var(--font-xs); color:var(--text-secondary); margin-bottom:16px;">
+          Order Service Category: <strong id="invoice-order-type" style="color:var(--text-primary);">Setup</strong>
+        </div>
+
+        <!-- Table of items -->
+        <table style="font-size:var(--font-xs); margin-bottom:24px;">
+          <thead>
+            <tr>
+              <th>Item / Component</th>
+              <th>Qty</th>
+              <th>Rate</th>
+              <th style="text-align:right;">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody id="invoice-items-list">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+
+        <!-- Totals summary -->
+        <div style="display:flex; flex-direction:column; gap:8px; border-top:1px dashed var(--border-subtle); padding-top:16px; font-size:var(--font-sm); margin-bottom:24px;">
+          <div style="display:flex; justify-content:space-between; font-weight:700; font-size:var(--font-md);">
+            <span>Total Invoice Amount:</span>
+            <span id="invoice-total-amount" style="color:var(--accent);">₹0.00</span>
+          </div>
+        </div>
+
+        <!-- Payment details -->
+        <div style="background:var(--bg-base); padding:16px; border-radius:var(--radius-md); font-size:var(--font-xs); display:flex; flex-direction:column; gap:6px; border:1px solid var(--border-subtle);">
+          <div>
+            Payment Method: <strong id="invoice-pay-method" style="font-family:monospace;">UPI</strong>
+          </div>
+          <div>
+            Payment Status: <span id="invoice-pay-status" class="badge badge-success">Paid</span>
+          </div>
+          <div>
+            Transaction ID: <span id="invoice-txn-id" style="font-family:monospace; color:var(--text-secondary);">TXN100023</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="invoice-print-btn" class="btn btn-primary" style="background-color: var(--accent); color:#000;">
+          🖨 Export to PDF / Print
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 GreenBalcony. Guided by Mrs. P. Ratna Pavani & Dr. P. Srinivasarao. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/utils.js"></script>
+  <script type="module" src="js/payments.js"></script>
+</body>
+</html>
