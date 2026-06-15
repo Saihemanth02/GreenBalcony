@@ -3,7 +3,9 @@ const SUPABASE_URL = 'https://lggyihahtgnxpnlhcoun.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_HN3KtRz6UroG5tOJpBTzdg_57zUOR2s';
 const API_BASE = `${SUPABASE_URL}/rest/v1`;
 const AUTH_BASE = `${SUPABASE_URL}/auth/v1`;
-const AI_SERVER_BASE = 'http://localhost:5000/api';
+const AI_SERVER_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+  ? 'http://localhost:5000/api'
+  : `${window.location.origin}/api`;
 
 function getSupabaseHeaders() {
   const token = localStorage.getItem('token') || sessionStorage.getItem('token');

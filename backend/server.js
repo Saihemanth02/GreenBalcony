@@ -62,8 +62,12 @@ app.get('*', (req, res, next) => {
 // Global Error Handler
 app.use(errorHandler);
 
-// Start Server
-app.listen(PORT, () => {
-  console.log(`GreenBalcony server running on port ${PORT}`);
-  console.log(`Open http://localhost:${PORT} in your browser to view the application.`);
-});
+// Start Server (only if run directly)
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`GreenBalcony server running on port ${PORT}`);
+    console.log(`Open http://localhost:${PORT} in your browser to view the application.`);
+  });
+}
+
+module.exports = app;
