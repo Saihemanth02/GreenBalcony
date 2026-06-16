@@ -16,7 +16,7 @@ const targets = {
   profile: 'dashboard.html'
 };
 
-const welcomeMsg = "🌿 Welcome to GreenBalcony! I'm your AI Garden Assistant. I can help you choose plants, design your balcony garden, recommend packages, schedule maintenance, or book a service. How can I help you today?";
+const welcomeMsg = "🌿 గ్రీన్‌బాల్కనీకి స్వాగతం! నేను మీ AI గార్డెన్ అసిస్టెంట్‌ని. మొక్కలను ఎంచుకోవడంలో, మీ బాల్కనీ తోటను డిజైన్ చేయడంలో, ప్యాకేజీలను సిఫార్సు చేయడంలో లేదా సర్వీస్ బుక్ చేయడంలో నేను మీకు సహాయపడగలను. ఈరోజు నేను మీకు ఎలా సహాయపడగలను?";
 
 // Chat History State
 let chatHistory = [];
