@@ -437,7 +437,7 @@ router.post('/voice-assistant', async (req, res, next) => {
     let action = "chat";
     let target = null;
 
-    if (q.includes('telugu') || q.includes('tleugu') || q.includes('తెలుగు') || q.includes('ochu') || q.includes('ocha')) {
+    if (q.includes('telugu') || q.includes('tleugu') || q.includes('telgu') || q.includes('తెలుగు') || q.includes('ochu') || q.includes('ocha')) {
       reply = "అవును, నాకు తెలుగు బాగా వచ్చు! గ్రీన్‌బాల్కనీ గురించి మీకు ఏ సమాచారం కావాలి?";
     } else if (q.includes('plant') || q.includes('mokka') || q.includes('మొక్క')) {
       reply = "మా వద్ద అలోవెరా, మనీ ప్లాంట్, మరియు తులసి మొక్కలు లభిస్తాయి. మొక్కల జాబితా కోసం మిమ్మల్ని క్యాటలాగ్ పేజీకి తీసుకెళ్తున్నాను.";
