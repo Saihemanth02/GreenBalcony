@@ -533,8 +533,21 @@ function initVoiceAssistant() {
   document.body.appendChild(script);
 }
 
+// Initialize OmniDimension Web Widget dynamically on the home page
+function initOmniDimensionWidget() {
+  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+  if (currentPath === 'index.html') {
+    const script = document.createElement('script');
+    script.id = 'omnidimension-web-widget';
+    script.src = 'https://omnidim.io/web_widget.js?secret_key=94cca58e979930f59089da6b6422ecf3';
+    script.async = true;
+    document.body.appendChild(script);
+  }
+}
+
 // Auto load header, footer, and voice assistant when DOM is ready
 window.addEventListener('DOMContentLoaded', () => {
   loadHeaderAndFooter();
   initVoiceAssistant();
+  initOmniDimensionWidget();
 });
