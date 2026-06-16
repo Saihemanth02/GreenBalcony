@@ -429,10 +429,51 @@ router.post('/voice-assistant', async (req, res, next) => {
       });
     }
   } catch (err) {
-    console.error('Gemini API execution failed:', err);
-    res.status(503).json({
-      success: false,
-      error: "AI Assistant unavailable. Please try again."
+    console.error('Gemini API execution failed, using local Telugu fallback:', err.message || err);
+    
+    // Fallback checks for daily quota limits
+    const q = question.toLowerCase();
+    let reply = "క్షమించండి, ప్రస్తుతం నా సర్వర్ కొద్దిగా బిజీగా ఉంది (Gemini API కోటా ముగిసింది). నేను మీకు ఎలా సహాయపడగలను?";
+    let action = "chat";
+    let target = null;
+
+    if (q.includes('telugu') || q.includes('tleugu') || q.includes('తెలుగు') || q.includes('ochu') || q.includes('ocha')) {
+      reply = "అవును, నాకు తెలుగు బాగా వచ్చు! గ్రీన్‌బాల్కనీ గురించి మీకు ఏ సమాచారం కావాలి?";
+    } else if (q.includes('plant') || q.includes('mokka') || q.includes('మొక్క')) {
+      reply = "మా వద్ద అలోవెరా, మనీ ప్లాంట్, మరియు తులసి మొక్కలు లభిస్తాయి. మొక్కల జాబితా కోసం మిమ్మల్ని క్యాటలాగ్ పేజీకి తీసుకెళ్తున్నాను.";
+      action = "navigate";
+      target = "plants";
+    } else if (q.includes('package') || q.includes('ప్యాకేజీ') || q.includes('offer')) {
+      reply = "మా వద్ద బాల్కనీ తోట కోసం చిన్న, మధ్యస్థ మరియు ప్రీమియం ప్యాకేజీలు అందుబాటులో ఉన్నాయి. మరిన్ని వివరాల కోసం క్యాటలాగ్ చూడండి.";
+      action = "navigate";
+      target = "packages";
+    } else if (q.includes('book') || q.includes('బుక్') || q.includes('order')) {
+      reply = "సర్వీస్ లేదా సెటప్ బుక్ చేయడానికి, మిమ్మల్ని బుకింగ్ పేజీకి తీసుకెళ్తున్నాను.";
+      action = "navigate";
+      target = "bookings";
+    } else if (q.includes('maintenance') || q.includes('clean') || q.includes('మెయింటెనెన్స్')) {
+      reply = "తోట మెయింటెనెన్స్ షెడ్యూల్ మరియు వివరాల కోసం మిమ్మల్ని మెయింటెనెన్స్ పేజీకి మళ్లిస్తున్నాను.";
+      action = "navigate";
+      target = "maintenance";
+    } else if (q.includes('dashboard') || q.includes('డాష్') || q.includes('account')) {
+      reply = "మీ తోట వివరాలు మరియు ఆర్డర్ల కోసం మిమ్మల్ని డాష్‌బోర్డ్ పేజీకి తీసుకువెళ్తున్నాను.";
+      action = "navigate";
+      target = "dashboard";
+    } else if (q.includes('payment') || q.includes('డబ్బు') || q.includes('bill')) {
+      reply = "మీ బిల్లులు మరియు పేమెంట్ రశీదుల కోసం మిమ్మల్ని పేమెంట్స్ పేజీకి మళ్లిస్తున్నాను.";
+      action = "navigate";
+      target = "payments";
+    } else if (q.includes('hi') || q.includes('hello') || q.includes('హలో') || q.includes('namaste') || q.includes('నమస్తే')) {
+      reply = "నమస్తే! నేను గ్రీన్‌బాల్కనీ AI అసిస్టెంట్‌ని. మీకు మొక్కల ప్యాకేజీలు, బుకింగ్స్ లేదా మెయింటెనెన్స్ గురించి ఏ సమాచారం కావాలి?";
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        reply,
+        action,
+        target
+      }
     });
   }
 });
