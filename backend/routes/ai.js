@@ -433,7 +433,7 @@ router.post('/voice-assistant', async (req, res, next) => {
     
     // Fallback checks for daily quota limits
     const q = question.toLowerCase();
-    let reply = "క్షమించండి, ప్రస్తుతం నా సర్వర్ కొద్దిగా బిజీగా ఉంది (Gemini API కోటా ముగిసింది). నేను మీకు ఎలా సహాయపడగలను?";
+    let reply = "క్షమించండి, ప్రస్తుతం నా సర్వర్ కొద్దిగా బిజీగా ఉంది. నేను మీకు ఎలా సహాయపడగలను?";
     let action = "chat";
     let target = null;
 
