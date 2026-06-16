@@ -3,6 +3,7 @@ const router = express.Router();
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const { verifyToken } = require('../middleware/auth');
 const jwt = require('jsonwebtoken');
+const { matchKnowledgeBase } = require('../db/knowledgeBase');
 require('dotenv').config();
 
 // Initialize Gemini
@@ -210,6 +211,19 @@ router.post('/garden-chat', verifyToken, checkAiRateLimit, async (req, res, next
     return res.status(400).json({ success: false, error: 'Question is required.' });
   }
 
+  // Check Local Knowledge Base first
+  const kbMatch = matchKnowledgeBase(question);
+  if (kbMatch) {
+    const isTelugu = /[\u0c00-\u0c7f]/.test(question);
+    const reply = isTelugu ? kbMatch.reply.te : kbMatch.reply.en;
+    return res.status(200).json({
+      success: true,
+      data: {
+        reply: reply
+      }
+    });
+  }
+
   if (!model) {
     return res.status(503).json({ success: false, error: 'AI Chat unavailable. Gemini API Key is missing or invalid on the server.' });
   }
@@ -283,6 +297,21 @@ router.post('/voice-assistant', async (req, res, next) => {
 
   if (!question) {
     return res.status(400).json({ success: false, error: 'Question is required.' });
+  }
+
+  // Check Local Knowledge Base first
+  const kbMatch = matchKnowledgeBase(question);
+  if (kbMatch) {
+    const isTelugu = /[\u0c00-\u0c7f]/.test(question);
+    const reply = isTelugu ? kbMatch.reply.te : kbMatch.reply.en;
+    return res.status(200).json({
+      success: true,
+      data: {
+        reply: reply,
+        action: kbMatch.action || 'chat',
+        target: kbMatch.target || null
+      }
+    });
   }
 
   if (!model) {
