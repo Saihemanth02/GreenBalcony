@@ -537,11 +537,73 @@ function initVoiceAssistant() {
 function initOmniDimensionWidget() {
   const currentPath = window.location.pathname.split('/').pop() || 'index.html';
   if (currentPath === 'index.html') {
+    // 1. Inject script
     const script = document.createElement('script');
     script.id = 'omnidimension-web-widget';
     script.src = 'https://omnidim.io/web_widget.js?secret_key=94cca58e979930f59089da6b6422ecf3';
     script.async = true;
     document.body.appendChild(script);
+
+    // 2. Inject CSS overrides for launcher button to make it a cool circular bubble with support icon
+    const style = document.createElement('style');
+    style.innerHTML = `
+      #chat-helper-button, 
+      #omni-minimized-pill,
+      #omnidimension-web-widget-launcher {
+        width: 56px !important;
+        height: 56px !important;
+        border-radius: 50% !important;
+        padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        overflow: hidden !important;
+        box-shadow: 0 4px 16px rgba(34, 197, 94, 0.2) !important;
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s !important;
+        background: #22c55e !important;
+        border: none !important;
+        cursor: pointer !important;
+        animation: pulse-glow 2s infinite !important;
+        position: fixed !important;
+        bottom: 24px !important;
+        left: 24px !important;
+      }
+
+      /* Hover effects */
+      #chat-helper-button:hover,
+      #omni-minimized-pill:hover {
+        transform: scale(1.1) !important;
+        box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4) !important;
+      }
+
+      /* Hide text label */
+      #chat-helper-button span,
+      #omni-minimized-pill span,
+      #chat-helper-button div:not(:first-child),
+      #omni-minimized-pill div:not(:first-child) {
+        display: none !important;
+      }
+
+      /* Hide original logo image */
+      #chat-helper-button img,
+      #omni-minimized-pill img {
+        display: none !important;
+      }
+
+      /* Inject white calling/support headset SVG icon */
+      #chat-helper-button::after,
+      #omni-minimized-pill::after {
+        content: "" !important;
+        display: block !important;
+        width: 24px !important;
+        height: 24px !important;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 18v-6a9 9 0 0 1 18 0v6'/%3E%3Cpath d='M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z'/%3E%3C/svg%3E") !important;
+        background-size: contain !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+      }
+    `;
+    document.head.appendChild(style);
   }
 }
 
