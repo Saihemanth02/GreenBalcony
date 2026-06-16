@@ -518,5 +518,23 @@ async function setupNotificationSystem() {
   setInterval(fetchNotifs, 30000);
 }
 
-// Auto load header and footer when DOM is ready
-window.addEventListener('DOMContentLoaded', loadHeaderAndFooter);
+// Initialize AI Voice Assistant dynamically on all pages
+function initVoiceAssistant() {
+  // Load assistant.css stylesheet
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'css/assistant.css';
+  document.head.appendChild(link);
+
+  // Load assistant.js script module
+  const script = document.createElement('script');
+  script.src = 'js/assistant.js';
+  script.type = 'module';
+  document.body.appendChild(script);
+}
+
+// Auto load header, footer, and voice assistant when DOM is ready
+window.addEventListener('DOMContentLoaded', () => {
+  loadHeaderAndFooter();
+  initVoiceAssistant();
+});
