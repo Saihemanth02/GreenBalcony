@@ -478,4 +478,83 @@ router.post('/voice-assistant', async (req, res, next) => {
   }
 });
 
+// @route   POST /api/ai/tts
+// @desc    Convert Telugu text to Speech using Sarvam AI
+// @access  Public
+router.post('/tts', async (req, res, next) => {
+  const { text } = req.body;
+
+  if (!text) {
+    return res.status(400).json({ success: false, error: 'Text is required.' });
+  }
+
+  const apiKey = process.env.SARVAM_API_KEY;
+  if (!apiKey) {
+    return res.status(503).json({ success: false, error: 'Sarvam TTS service is not configured on the server.' });
+  }
+
+  // Rate Limiting (max 50 requests per hour per IP)
+  const rateLimitKey = req.ip;
+  const now = Date.now();
+  const oneHour = 60 * 60 * 1000;
+
+  if (!aiRateLimits[rateLimitKey]) {
+    aiRateLimits[rateLimitKey] = [];
+  }
+  aiRateLimits[rateLimitKey] = aiRateLimits[rateLimitKey].filter(t => (now - t) < oneHour);
+
+  if (aiRateLimits[rateLimitKey].length >= 50) {
+    return res.status(429).json({
+      success: false,
+      error: "TTS request limit reached. Please try again in an hour."
+    });
+  }
+  aiRateLimits[rateLimitKey].push(now);
+
+  try {
+    const response = await fetch('https://api.sarvam.ai/text-to-speech', {
+      method: 'POST',
+      headers: {
+        'api-subscription-key': apiKey,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        text: text,
+        target_language_code: 'te-IN',
+        model: 'bulbul:v3',
+        speaker: 'kavitha'
+      })
+    });
+
+    if (!response.ok) {
+      const errData = await response.json().catch(() => ({}));
+      console.error('Sarvam AI TTS API error status:', response.status, errData);
+      return res.status(response.status).json({
+        success: false,
+        error: errData.error && errData.error.message ? errData.error.message : 'Failed to generate speech synthesis.'
+      });
+    }
+
+    const data = await response.json();
+    if (data.audios && data.audios.length > 0) {
+      return res.status(200).json({
+        success: true,
+        audio: data.audios[0]
+      });
+    } else {
+      return res.status(502).json({
+        success: false,
+        error: 'No audio was returned from the TTS service.'
+      });
+    }
+  } catch (err) {
+    console.error('Sarvam AI TTS API request failed:', err);
+    return res.status(500).json({
+      success: false,
+      error: 'Internal server error while processing TTS request.'
+    });
+  }
+});
+
 module.exports = router;
+

@@ -22,6 +22,7 @@ const welcomeMsg = "🌿 గ్రీన్‌బాల్కనీకి స్
 let chatHistory = [];
 let recognition = null;
 let currentUtterance = null;
+let currentAudio = null;
 
 // Initialize Widget
 function injectWidget() {
@@ -302,22 +303,54 @@ async function handleUserSubmit() {
 }
 
 // Web Speech API - Speech Synthesis (Text-to-Speech)
-function speakVoice(text) {
+async function speakVoice(text) {
   const toggle = document.getElementById('gb-assistant-voice-toggle');
   if (!toggle || !toggle.checked) return;
 
+  cancelSpeech();
+
+  // Remove emojis or special symbols for cleaner speech
+  const cleanText = text.replace(/🌿|⭐|★|☆|✈️|🎙️|🔔|🧑‍🌾|🪴|🚜|✨|📅/g, '').trim();
+  if (!cleanText) return;
+
+  // Detect Telugu characters
+  const containsTelugu = /[\u0c00-\u0c7f]/.test(cleanText);
+
+  if (containsTelugu) {
+    try {
+      const response = await fetch(`${AI_SERVER_BASE}/ai/tts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text: cleanText })
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success && result.audio) {
+          currentAudio = new Audio('data:audio/wav;base64,' + result.audio);
+          currentAudio.play().catch(e => {
+            console.warn('Audio playback failed (possibly blocked by browser autoplay policy):', e);
+            // fallback to speech synthesis if play fails
+            speakBrowserVoice(cleanText, true);
+          });
+          return;
+        }
+      }
+    } catch (err) {
+      console.warn('Sarvam TTS failed, falling back to browser SpeechSynthesis:', err);
+    }
+  }
+
+  // Fallback to browser SpeechSynthesis
+  speakBrowserVoice(cleanText, containsTelugu);
+}
+
+function speakBrowserVoice(cleanText, containsTelugu) {
   if ('speechSynthesis' in window) {
-    cancelSpeech();
-
-    // Remove emojis or special symbols for cleaner speech
-    const cleanText = text.replace(/🌿|⭐|★|☆|✈️|🎙️|🔔|🧑‍🌾|🪴|🚜|✨|📅/g, '').trim();
-
     currentUtterance = new SpeechSynthesisUtterance(cleanText);
     
-    // Detect Telugu characters
-    const containsTelugu = /[\u0c00-\u0c7f]/.test(cleanText);
-    
-    // Attempt to set matching voice
     const voices = window.speechSynthesis.getVoices();
     if (containsTelugu) {
       const teluguVoice = voices.find(v => v.lang.startsWith('te') || v.lang.includes('TE'));
@@ -339,6 +372,13 @@ function speakVoice(text) {
 function cancelSpeech() {
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
+  }
+  if (currentAudio) {
+    try {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+    } catch (e) {}
+    currentAudio = null;
   }
 }
 
